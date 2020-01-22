@@ -10,7 +10,7 @@ def guessing_game():
     
     try:
       guess = int(guess)
-    except ValueError:
+    except ValueError: #python version of try catch, catch here. when int is not excecuted!! 
       print("Please enter an integer.")
       continue
 
