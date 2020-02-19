@@ -40,6 +40,7 @@ room['narrow'].w_to = room['foyer']
 room['narrow'].n_to = room['treasure']
 room['treasure'].s_to = room['narrow']
 
+# set player attributes here
 player = Player(input("Enter your player name: "),
                 room['outside'], playeritems)
 
@@ -84,11 +85,11 @@ def getDirection():
 
 def moveRoom(player, direction):
     # direction passed here is result of getDirection() input
-    newRoom = player.current_room.roomInDirection(direction)
+    newRoom = player.current_room.roomDirection(direction)
     if newRoom:
         player.move1(newRoom)
     else:
-        print("can't move there, retry!")
+        print("Oops can't go in that direction, retry!")
         newDirection = getDirection()
         moveRoom(player, newDirection)  # regression
 
@@ -147,12 +148,12 @@ def inventory(player):
 def loopGame():
     global player
     print(
-        f'\n{player.name} entered {player.current_room}, ')
+        f'\n{player.name} entered the {player.current_room}, ')
     direction = getDirection()
     moveRoom(player, direction)
-    takeItem(player, room)
-    dropItem(player, room)
-    inventory(player)
+    #takeItem(player, room)
+    #dropItem(player, room)
+    # inventory(player)
 
 
 def main():

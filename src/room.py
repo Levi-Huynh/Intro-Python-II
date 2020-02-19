@@ -20,7 +20,7 @@ class Room:
         self.description = description
         self.Item = Item(itemnames)
 
-    def roomInDirection(self, direction):
+    def roomDirection(self, direction):
         if direction == "n":
             return self.n_to
         if direction == "s":
@@ -31,11 +31,11 @@ class Room:
             return self.e_to
 
     def __repr__(self):
-        return f" ROOM is: {self.name}, Which has items {self.Item.name}  "
+        return f" {self.name}. Items this room has are: {self.Item.name}  "
 
 
-itemnames = ["sheild", "hammer"]
-itemdescript = ["weapon", "tool"]
+#itemnames = ["sheild", "hammer"]
+#itemdescript = ["weapon", "tool"]
 # myroom = Room("Outside Cave Entrance", "North of you, the cave mount beckons",
 # 'foyer', 'outside', 'outside', 'outside', itemnames, itemdescript)
 # print(myroom)

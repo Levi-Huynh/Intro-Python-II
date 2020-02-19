@@ -7,17 +7,9 @@ import argparse
 # https://linuxhint.com/python_command_line_parsing_tutorial/
 
 
-class IterRegistry(type):
-    def __iter__(cls):
-        return iter(cls._registry)
-
-
 class Player:
-    __metaclass__ = IterRegistry
-    _registry = []
 
     def __init__(self, name, current_room, *itemname):
-        self._registry.append(self)
         self.name = name
         self.current_room = current_room
         self.Item = Item(itemname)
