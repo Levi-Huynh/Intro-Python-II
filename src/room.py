@@ -10,23 +10,38 @@ from item import Item
 
 
 class Room:
-    def __init__(self, name, description, n_to, s_to, e_to, w_to, itemname, itemd):
+    #n_to = None
+    #s_to = None
+    #e_to = None
+    #w_to = None
+
+    def __init__(self, name, description, *itemnames, north=None, south=None, east=None, west=None):
         self.name = name
         self.description = description
-        self.n_to = n_to
-        self.s_to = s_to
-        self.e_to = e_to
-        self.w_to = w_to
-        self.Item = Item(itemname, itemd)
+        self.Item = Item(itemnames)
+        self.n_to = north
+        self.s_to = south
+        self.e_to = east
+        self.w_to = west
 
-    def __repr__(self):
-        return f" ROOM is: {self.name}.  Room Item Inventory: {self.Item.name}.  "
+    def roomDirection(self, direction):
+        if direction == "n":
+            return self.n_to  # execute the room links in adv2.py if it exists
+        if direction == "s":
+            return self.s_to
+        if direction == "w":
+            return self.w_to
+        else:
+            return self.e_to
+
+    def __str__(self):
+        return f" {self.name}. Items this room has are: {self.Item.name}  "
 
 
-itemnames = ["sheild", "hammer"]
-itemdescript = ["weapon", "tool"]
-myroom = Room("Outside Cave Entrance", "North of you, the cave mount beckons",
-              'foyer', 'outside', 'outside', 'outside', itemnames, itemdescript)
+#itemnames = ["sheild", "hammer"]
+#itemdescript = ["weapon", "tool"]
+# myroom = Room("Outside Cave Entrance", "North of you, the cave mount beckons",
+# 'foyer', 'outside', 'outside', 'outside', itemnames, itemdescript)
 # print(myroom)
 # print(myroom.Item.name)
 """

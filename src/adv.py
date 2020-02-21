@@ -45,7 +45,7 @@ room['treasure'].s_to = room['narrow']
 #
 # Main
 #
-# https://thispointer.com/python-how-to-check-if-an-item-exists-in-list-search-by-value-or-condition/ 
+# https://thispointer.com/python-how-to-check-if-an-item-exists-in-list-search-by-value-or-condition/
 # https://stackoverflow.com/questions/31924708/in-python-how-would-i-go-about-creating-a-save-system-for-a-text-adventure
 
 parser = argparse.ArgumentParser(description='Move players around')
@@ -84,7 +84,7 @@ if arg.direction == 'w':
     print("nin scope player:", cPlayer)
 if arg.direction == 'q':
     print("you've quit the game!", type(cPlayer.current_room.Item.name))
-if arg.get and cPlayer.current_room.Item.name.count(arg.get) >0:
+if arg.get and cPlayer.current_room.Item.name.count(arg.get) > 0:
     cPlayer.current_room.Item.name.remove(arg.get)
     cPlayer.Item.name.append(arg.get)
     print("item picked!", cPlayer.Item.name,

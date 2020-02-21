@@ -1,18 +1,14 @@
 
 class Item:
-    def __init__(self, name, description):
+
+    def __init__(self, *name):
         self.name = name
-        self.description = description
 
     def __repr__(self):
-        return f"Items are: {self.name}, Item descriptions are: {self.description}"
+        return f"{self.name}"
 
     def on_take(self):
         print(f"You've picked up {self.name} ")
-    
+
     def on_drop(self):
         print(f"You've dropped {self.name} ")
-
-#my_item = Item("sword", "weapon")
-
-# print(my_item)
