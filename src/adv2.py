@@ -14,18 +14,18 @@ room = {
                      "North of you, the cave mount beckons", itemnames),
 
     'foyer':    Room("Foyer", """Dim light filters in from the south. Dusty
-passages run north and east.""", itemnames),
+passages run north and east.""",  itemnames),
 
     'overlook': Room("Grand Overlook", """A steep cliff appears before you, falling
 into the darkness. Ahead to the north, a light flickers in
-the distance, but there is no way across the chasm.""", itemnames),
+the distance, but there is no way across the chasm.""",  itemnames),
 
     'narrow':   Room("Narrow Passage", """The narrow passage bends here from west
-to north. The smell of gold permeates the air.""", itemnames),
+to north. The smell of gold permeates the air.""",  itemnames),
 
     'treasure': Room("Treasure Chamber", """You've found the long-lost treasure
 chamber! Sadly, it has already been completely emptied by
-earlier adventurers. The only exit is to the south.""", itemnames),
+earlier adventurers. The only exit is to the south.""",  itemnames),
 }
 
 playeritems = ["rope", "hat"]
@@ -71,10 +71,10 @@ def check():
         thing1.remove(ran[1])
         thing2 = []
         thing2.append(thing1[1])
-        print("sup2", thing2)
+        #print("here", thing2)
 
 
-def getDirection():
+def getDirection():  # decouple function to take care of getting direction input
     direction = input("which direction? [n/s/w/e]: ")
     if direction == "n" or direction == "s" or direction == "w" or direction == "e":
         return direction
@@ -84,7 +84,7 @@ def getDirection():
 
 
 def moveRoom(player, direction):
-    # direction passed here is result of getDirection() input
+    # direction passed here is result of getDirection() function input
     newRoom = player.current_room.roomDirection(direction)
     if newRoom:
         player.move1(newRoom)
@@ -151,9 +151,9 @@ def loopGame():
         f'\n{player.name} entered the {player.current_room}, ')
     direction = getDirection()
     moveRoom(player, direction)
-    #takeItem(player, room)
-    #dropItem(player, room)
-    # inventory(player)
+    takeItem(player, room)
+    dropItem(player, room)
+    inventory(player)
 
 
 def main():

@@ -10,19 +10,23 @@ from item import Item
 
 
 class Room:
-    n_to = None
-    s_to = None
-    e_to = None
-    w_to = None
+    #n_to = None
+    #s_to = None
+    #e_to = None
+    #w_to = None
 
-    def __init__(self, name, description, *itemnames):
+    def __init__(self, name, description, *itemnames, north=None, south=None, east=None, west=None):
         self.name = name
         self.description = description
         self.Item = Item(itemnames)
+        self.n_to = north
+        self.s_to = south
+        self.e_to = east
+        self.w_to = west
 
     def roomDirection(self, direction):
         if direction == "n":
-            return self.n_to
+            return self.n_to  # execute the room links in adv2.py if it exists
         if direction == "s":
             return self.s_to
         if direction == "w":
@@ -30,7 +34,7 @@ class Room:
         else:
             return self.e_to
 
-    def __repr__(self):
+    def __str__(self):
         return f" {self.name}. Items this room has are: {self.Item.name}  "
 
 

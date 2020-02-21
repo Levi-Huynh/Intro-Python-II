@@ -25,10 +25,10 @@ class Player:
         self.Item = Item(item)
 
     def __repr__(self):
-        return f"Current player name is: {self.name}. & {self.current_room} Player carrying: {self.Item.name}. "
+        return f" {self.name} is currently in {self.current_room}. Player is carrying: {self.Item.name}. "
 
 
 thing = Player("jack", "kitchen", ("spoon", "pencil"))
 thing.getitem("thing", "thing1")
 thing2 = thing.Item
-print(thing2)
+# print(thing2)
