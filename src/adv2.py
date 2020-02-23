@@ -122,6 +122,7 @@ def dropItem(player, room):
             print('dropped', spltInput[1], ilist[1])
             flat = [i for sub in ilist[1] for i in sub]
             flat.remove(spltInput[1])
+            #print("item dropped,now carrying: ", ilist[1])
             remove = player.removeitem(player, flat)
             print("player items now:", player.Item.name[0][1])
             return remove
