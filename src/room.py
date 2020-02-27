@@ -34,8 +34,11 @@ class Room:
         else:
             return self.e_to
 
+    def addItem(self, *item):
+        self.Item = item
+
     def __str__(self):
-        return f" {self.name}. Items this room has are: {self.Item.name}  "
+        return f" {self.name} Items this room has are: {self.Item}  "
 
 
 #itemnames = ["sheild", "hammer"]

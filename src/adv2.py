@@ -1,12 +1,13 @@
 from room import Room
 from player import Player
+from item import Item
 import argparse
 import re
 
 # Declare all the rooms
 # https://www.futurelearn.com/courses/object-oriented-principles/0/steps/31490
 # ADDING ITEM VERSUS LIST OF ITEMS TO LIST https://www.geeksforgeeks.org/append-extend-python/
-itemnames = ("sheild", "hammer")
+itemnames = ["sheild", "hammer"]
 itemdescript = ["weapon", "tool"]
 
 room = {
@@ -55,7 +56,7 @@ ans = get.split()
 print(ans)
 """
 
-
+"""
 def check():
     get = input(
         "choose an item by typing [take] [itemname] or choose [q]: ")
@@ -71,7 +72,18 @@ def check():
         thing1.remove(ran[1])
         thing2 = []
         thing2.append(thing1[1])
-        #print("here", thing2)
+        # print("here", thing2)
+"""
+
+
+def check():
+    # rlist = [i for sub in player.current_room.Item[1] for i in sub]
+    rlist = ["hammer", "gloves"]
+    rlist.append(player.current_room.Item)
+    thing4 = player.current_room.addItem(player, rlist)
+    # print("rlist", rlist)
+    print("room items: ", thing4)
+    # print("thing4", thing4)
 
 
 def getDirection():  # decouple function to take care of getting direction input
@@ -102,7 +114,7 @@ def takeItem(player, room):
         print("no items chosen from room")
     elif spltInput[1] in player.current_room.Item.name[0][0] and "take" in spltInput:
         spltInput.pop(0)
-        #print("here", player.Item.name)
+        # print("here", player.Item.name)
         mlist = [i for i in player.Item.name[0]]
         mlist.append(spltInput)
         player.getitem(player, mlist)
@@ -114,17 +126,32 @@ def dropItem(player, room):
         "Drop an item by typing [drop] [itemname] or choose [dont] [drop]: ")
     spltInput = get.split()
     ilist = [i for i in player.Item.name[0]]
+    rlist = []
+    rlist.append(player.current_room.Item.name)
+    #print("YO", player.Item.name[0])
     if "dont" in spltInput:
         print("no items dropped")
         return
     if len(spltInput) > 1:
         if any(spltInput[1] in x for x in ilist[1]) and "drop" in spltInput:
-            print('dropped', spltInput[1], ilist[1])
+            print('you have dropped', spltInput[1])
             flat = [i for sub in ilist[1] for i in sub]
             flat.remove(spltInput[1])
-            #print("item dropped,now carrying: ", ilist[1])
+            mytup = []
+            for i in rlist[0][0][0]:
+                mytup.append(i)
+            #print("MYTUP", mytup)
+            mytup.append(spltInput[1])
+            #print("MYTUP2", mytup)
+            #flat1 = [i for sub in r2list for i in sub]
+            #print("YO HERE FLAT", flat1)
+            # print("item dropped,now carrying: ", ilist[1])
+            #player.removeitem(player, flat)
+
             remove = player.removeitem(player, flat)
-            print("player items now:", player.Item.name[0][1])
+            newItem = Item(mytup)
+            player.current_room.addItem(player, newItem)
+            #print("ROOM ITEMS: ", player.current_room.Item)
             return remove
     else:
         print("try again")
@@ -148,12 +175,13 @@ def inventory(player):
 def loopGame():
     global player
     print(
-        f'\n{player.name} entered the {player.current_room}, ')
+        f'\n{player.name} entered the {player.current_room}.')
     direction = getDirection()
     moveRoom(player, direction)
     takeItem(player, room)
     dropItem(player, room)
     inventory(player)
+    # check()
 
 
 def main():
