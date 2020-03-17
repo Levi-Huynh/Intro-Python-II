@@ -9,26 +9,26 @@ import argparse
 
 class Player:
 
-    def __init__(self, name, current_room, *itemname):
+    def __init__(self, name, current_room, itemname):
         self.name = name
         self.current_room = current_room
-        self.Item = Item(itemname)
+        self.Item = itemname
 
     def move1(self, room):
         self.current_room = room
 
-    def getitem(self, *item):
-        self.Item = Item(item)
+    def getitem(self, item):
+        self.Item = item
 
     # update the self item list in adv2 then pass in the list below
-    def removeitem(self, *item):
-        self.Item = Item(item)
+    def removeitem(self, item):
+        self.Item = item
 
-    def __repr__(self):
+    def __str__(self):
         return f" {self.name}. "
 
 
-thing = Player("jack", "kitchen", ("spoon", "pencil"))
-thing.getitem("thing", "thing1")
-thing2 = thing.Item
+#thing = Player("jack", "kitchen", ("spoon", "pencil"))
+#thing.getitem("thing", "thing1")
+#thing2 = thing.Item
 # print(thing2)

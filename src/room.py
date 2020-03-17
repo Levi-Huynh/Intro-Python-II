@@ -15,10 +15,10 @@ class Room:
     #e_to = None
     #w_to = None
 
-    def __init__(self, name, description, *itemnames, north=None, south=None, east=None, west=None):
-        self.name = name
+    def __init__(self, name, description, itemnames, north=None, south=None, east=None, west=None):
+        self.rname = name
         self.description = description
-        self.Item = Item(itemnames)
+        self.Item = itemnames
         self.n_to = north
         self.s_to = south
         self.e_to = east
@@ -34,11 +34,11 @@ class Room:
         else:
             return self.e_to
 
-    def addItem(self, *item):
-        self.Item = item
+    # def addItem(self, *item): #just append to room item
+      #  self.Item = item
 
     def __str__(self):
-        return f" {self.name} Items this room has are: {self.Item}  "
+        return f" {self.rname}  "
 
 
 #itemnames = ["sheild", "hammer"]

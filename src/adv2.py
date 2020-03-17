@@ -7,30 +7,38 @@ import re
 # Declare all the rooms
 # https://www.futurelearn.com/courses/object-oriented-principles/0/steps/31490
 # ADDING ITEM VERSUS LIST OF ITEMS TO LIST https://www.geeksforgeeks.org/append-extend-python/
-itemnames = ["sheild", "hammer"]
-itemdescript = ["weapon", "tool"]
+itemnames = [
+    Item("hammer"),
+    Item("sheild"),
+    Item("bucket"),
+    Item("food"),
+    Item("water"),
+    Item("sword"),
+    Item("blanket"),
+    Item("shovel")
+
+]
+
 
 room = {
     'outside':  Room("Outside Cave Entrance",
-                     "North of you, the cave mount beckons", itemnames),
+                     "North of you, the cave mount beckons", [itemnames[0]]),
 
     'foyer':    Room("Foyer", """Dim light filters in from the south. Dusty
-passages run north and east.""",  itemnames),
+passages run north and east.""",  [itemnames[1]]),
 
     'overlook': Room("Grand Overlook", """A steep cliff appears before you, falling
 into the darkness. Ahead to the north, a light flickers in
-the distance, but there is no way across the chasm.""",  itemnames),
+the distance, but there is no way across the chasm.""",  [itemnames[2]]),
 
     'narrow':   Room("Narrow Passage", """The narrow passage bends here from west
-to north. The smell of gold permeates the air.""",  itemnames),
+to north. The smell of gold permeates the air.""",  [itemnames[3]]),
 
     'treasure': Room("Treasure Chamber", """You've found the long-lost treasure
 chamber! Sadly, it has already been completely emptied by
-earlier adventurers. The only exit is to the south.""",  itemnames),
+earlier adventurers. The only exit is to the south.""",  [itemnames[4]]),
 }
 
-playeritems = ["rope", "hat"]
-playeritemdes = ["tool", "clothes"]
 
 room['outside'].n_to = room['foyer']
 room['foyer'].s_to = room['outside']
@@ -43,9 +51,29 @@ room['treasure'].s_to = room['narrow']
 
 # set player attributes here
 player = Player(input("Enter your player name: "),
-                room['outside'], playeritems)
+                room['outside'], [itemnames[2]])
 
 # print(player.current_room.Item.name[0][0])
+
+
+def check():
+    # rlist = [i for sub in player.current_room.Item[1] for i in sub]
+    rlist = [Item("hammer"), Item("gloves")]
+    rlist.append(player.current_room.Item)
+    thing4 = player.getitem(player, rlist)
+    # print("rlist", rlist)
+    minput = ["take", "sheild"]
+    print("playeritems: ", player.Item, minput[1])
+    roomItems = []
+    for i in player.current_room.Item[0]:
+        roomItems.append(i)
+    for i in roomItems:
+        print(type(i))
+
+    print("here", roomItems[0])
+
+    # print("thing4", thing4)
+
 
 """
 get = input(
@@ -76,17 +104,13 @@ def check():
 """
 
 
-def check():
-    # rlist = [i for sub in player.current_room.Item[1] for i in sub]
-    rlist = ["hammer", "gloves"]
-    rlist.append(player.current_room.Item)
-    thing4 = player.current_room.addItem(player, rlist)
-    # print("rlist", rlist)
-    print("room items: ", thing4)
-    # print("thing4", thing4)
-
-
 def getDirection():  # decouple function to take care of getting direction input
+    mydir = ["n", "s", "w", "e"]
+    print("hint: ")
+    for i in mydir:
+        newroom = player.current_room.roomDirection(i)
+        if newroom:
+            print(f"\n{i} will move to {newroom}")
     direction = input("which direction? [n/s/w/e]: ")
     if direction == "n" or direction == "s" or direction == "w" or direction == "e":
         return direction
@@ -107,66 +131,69 @@ def moveRoom(player, direction):
 
 
 def takeItem(player, room):
-    get = input(
-        "choose an item by typing [take] [itemname] or choose [no] [item]: ")
-    spltInput = get.split()
-    if "no" in spltInput:
-        print("no items chosen from room")
-    elif spltInput[1] in player.current_room.Item.name[0][0] and "take" in spltInput:
-        spltInput.pop(0)
-        # print("here", player.Item.name)
-        mlist = [i for i in player.Item.name[0]]
-        mlist.append(spltInput)
-        player.getitem(player, mlist)
-        print("You have picked up: ", spltInput)
+    if len(player.current_room.Item) == 0:
+        print("no items in room to pick up")
+    else:
+        get = input(
+            "choose an item by typing [take] [itemname] or choose [no] [item]: ")
+        spltInput = get.split()
+        if "no" in spltInput:
+            print("no items chosen from room")
+        elif "take" in spltInput:
+            print("take chosen. splInput[1] is", spltInput[1])
+            for x in range(len(player.current_room.Item)):
+                if spltInput[1] == str(player.current_room.Item[x]):
+                    print(
+                        f"\n you have picked up {player.current_room.Item[x]}")
+                    # doesn't use the getitem method
+                    player.Item.append(player.current_room.Item[x])
+                    del player.current_room.Item[x]
+                    break
 
 
 def dropItem(player, room):
     get = input(
         "Drop an item by typing [drop] [itemname] or choose [dont] [drop]: ")
     spltInput = get.split()
-    ilist = [i for i in player.Item.name[0]]
-    rlist = []
-    rlist.append(player.current_room.Item.name)
-    #print("YO", player.Item.name[0])
+    # print("YO", player.Item.name[0])
     if "dont" in spltInput:
         print("no items dropped")
+        print("TEST", len(player.Item))
+        for x in range(len(player.Item)):
+            print(player.Item[x])
         return
-    if len(spltInput) > 1:
-        if any(spltInput[1] in x for x in ilist[1]) and "drop" in spltInput:
-            print('you have dropped', spltInput[1])
-            flat = [i for sub in ilist[1] for i in sub]
-            flat.remove(spltInput[1])
-            mytup = []
-            for i in rlist[0][0][0]:
-                mytup.append(i)
-            #print("MYTUP", mytup)
-            mytup.append(spltInput[1])
-            #print("MYTUP2", mytup)
-            #flat1 = [i for sub in r2list for i in sub]
-            #print("YO HERE FLAT", flat1)
-            # print("item dropped,now carrying: ", ilist[1])
-            #player.removeitem(player, flat)
-
-            remove = player.removeitem(player, flat)
-            newItem = Item(mytup)
-            player.current_room.addItem(player, newItem)
-            #print("ROOM ITEMS: ", player.current_room.Item)
-            return remove
+    if "drop" in spltInput:
+        if len(player.Item) > 0:
+            for x in range((len(player.Item)+1)):
+                if spltInput[1] == str(player.Item[x]):
+                    print(f"\n you have dropped {player.Item[x]}")
+                    player.current_room.Item.append(player.Item[x])
+                    player.Item.pop(x)
+                    break
+    if len(player.current_room.Item) > 0:
+        print(f"\n {player.current_room} now has: ")
+        for x in range(len(player.current_room.Item)):
+            print(f"\n {player.current_room.Item[x]}")
     else:
         print("try again")
-        dropItem(player, room)
 
 
 def inventory(player):
     inv = input(
-        "To check items carried by player type [i] or [inventory] else type [continue]: ")
+        "To check items carried by player type [i] or [inventory] else type [continue] or [q] to quit: ")
     spltInv = inv.split()
     if "i" in spltInv or "inventory" in spltInv:
-        print("player currently carrying: ", player.Item.name[0][1])
+        print(f"\n {player.name} currently carrying: \n")
+        if len(player.Item) > 0:
+            for x in range(len(player.Item)):
+                print(f"\n{player.Item[x]}")
         return
     if "continue" in spltInv:
         print("game continue")
+        return
+    if "q" in spltInv:
+        print("\n You've Quit Game")
+        exit()
     else:
         print("invalid command")
         inventory(player)
@@ -174,14 +201,22 @@ def inventory(player):
 
 def loopGame():
     global player
-    print(
-        f'\n{player.name} entered the {player.current_room}.')
+    if len(player.current_room.Item) > 0:
+        for x in range(len(player.current_room.Item)):
+            print(
+                f'\n {player.name} is in the {player.current_room}, this room contains {player.current_room.Item[x]} ')
+    else:
+        print(
+            f'\n{player.name} is in the {player.current_room}. This room currently has no items to pick up')
     direction = getDirection()
     moveRoom(player, direction)
+    for x in range(len(player.current_room.Item)):
+        print(
+            f'\n {player.name} entered the {player.current_room}, this room contains {player.current_room.Item[x]} ')
     takeItem(player, room)
     dropItem(player, room)
     inventory(player)
-    # check()
+   # check()
 
 
 def main():
@@ -190,6 +225,3 @@ def main():
 
 
 main()
-"""
-check()
-"""
